@@ -18,7 +18,7 @@ def load_gif_frames():
 
 
 def main():
-    frame_counter = 0;
+    frame_counter = 0
     
     """Displays gif frames on matrix."""
     options = RGBMatrixOptions()
