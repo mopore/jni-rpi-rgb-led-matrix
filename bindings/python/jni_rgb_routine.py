@@ -35,7 +35,7 @@ class RunTextRenderer:
     def __init__(self, text: str):
         self.text = text
         self.font = graphics.Font()
-        self.font.LoadFont("../../../fonts/7x13.bdf")
+        self.font.LoadFont("../../fonts/7x13.bdf")
         self.textColor = graphics.Color(255, 255, 0)
         self.pos = 64
         
@@ -60,16 +60,22 @@ def main():
     offscreen_canvas = matrix.CreateFrameCanvas()
     
     frame_counter = 0
-    # renderer = AnimatedGifRenderer(SHOOTER_PATH)
-    renderer = RunTextRenderer("The world is an interesting place to live...")
+    renderer1 = AnimatedGifRenderer(SHOOTER_PATH)
+    renderer2 = RunTextRenderer("Ey!!!")
+    selectedRenderer = renderer1
+
     while True:
         offscreen_canvas.Clear()
-        renderer.render(offscreen_canvas)
+        selectedRenderer.render(offscreen_canvas)
         offscreen_canvas = matrix.SwapOnVSync(offscreen_canvas)
         frame_counter += 1
-        if frame_counter % 150 == 0:
-            print(f"Frame counter is at: {frame_counter}")
-
+        if frame_counter % 100 == 0:
+            print(f"Switching renderer at Frame No. {frame_counter}")
+            if selectedRenderer == renderer1:
+                selectedRenderer = renderer2
+            else:
+                selectedRenderer = renderer1
+                
 
 if __name__ == '__main__':
     main()
