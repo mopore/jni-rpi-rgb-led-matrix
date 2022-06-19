@@ -18,9 +18,7 @@ def load_gif_frames():
 
 
 def main():
-    frame_counter = 0
-    
-    """Displays gif frames on matrix."""
+
     options = RGBMatrixOptions()
     options.rows = 32
     options.cols = 64
@@ -28,10 +26,18 @@ def main():
     options.parallel = 1
     options.hardware_mapping = 'adafruit-hat'
     matrix = RGBMatrix(options=options)
+
+    offscreen_canvas = matrix.CreateFrameCanvas()
     
+    frame_counter = 0
     while True:
         for frame in load_gif_frames():
-            matrix.SetImage(frame)
+            
+            offscreen_canvas.Clear()
+
+            offscreen_canvas.SetImage(frame) 
+
+            offscreen_canvas = matrix.SwapOnVSync(offscreen_canvas)
             time.sleep(frame.info['duration'] / 1000)
             frame_counter += 1
             if frame_counter % 10 == 0:
