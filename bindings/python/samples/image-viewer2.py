@@ -3,9 +3,9 @@ from samplebase import SampleBase
 from PIL import Image
 
 
-class ImageScroller(SampleBase):
+class ImageViewer(SampleBase):
     def __init__(self, *args, **kwargs):
-        super(ImageScroller, self).__init__(*args, **kwargs)
+        super(ImageViewer, self).__init__(*args, **kwargs)
         self.parser.add_argument("-i", "--image", help="The image to display", default="../../../examples-api-use/runtext.ppm")
 
     def run(self):
@@ -22,9 +22,9 @@ class ImageScroller(SampleBase):
         # let's scroll
         xpos = 0
         while True:
-            xpos += 1
-            if (xpos > img_width):
-                xpos = 0
+            #  xpos += 
+            #  if (xpos > img_width):
+            #      xpos = 0
 
             double_buffer.SetImage(self.image, -xpos)
             #  double_buffer.SetImage(self.image, -xpos + img_width)
@@ -37,6 +37,6 @@ class ImageScroller(SampleBase):
 #  sudo ./image-scroller.py --chain=4
 # if you have a chain of four
 if __name__ == "__main__":
-    image_scroller = ImageScroller()
-    if (not image_scroller.process()):
-        image_scroller.print_help()
+    viewer = ImageViewer()
+    if (not viewer.process()):
+        viewer.print_help()
