@@ -7,6 +7,7 @@ import time
 from PIL import Image, ImageSequence
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
+
 def get_frames(path):
     """Returns an iterable of gif frames."""
     frames = []
@@ -30,7 +31,7 @@ def display_gif(path):
     while True:
         for frame in get_frames(path):
             matrix.SetImage(frame)
-            time.sleep(frame.info['duration']/1000)
+            time.sleep(frame.info['duration'] / 1000)
 
 
 def _get_parser():
