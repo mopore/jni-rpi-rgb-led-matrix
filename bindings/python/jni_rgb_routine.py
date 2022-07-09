@@ -36,7 +36,8 @@ class RunTextRenderer:
         self.text = text
         self.font = graphics.Font()
         self.font.LoadFont("../../fonts/7x13.bdf")
-        self.textColor = graphics.Color(255, 255, 0)
+        # Text color should be blue
+        self.textColor = graphics.Color(0, 0, 255)
         self.pos = 64
         
     def render(self, offscreen_canvas) -> None:
@@ -55,6 +56,7 @@ def main():
     options.chain_length = 1
     options.parallel = 1
     options.hardware_mapping = 'adafruit-hat'
+    options.led_rgb_sequence = 'RBG'
     matrix = RGBMatrix(options=options)
 
     offscreen_canvas = matrix.CreateFrameCanvas()
