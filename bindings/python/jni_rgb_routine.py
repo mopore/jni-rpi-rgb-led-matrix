@@ -3,6 +3,7 @@ from PIL import Image, ImageSequence
 from rgbmatrix import FrameCanvas, graphics, RGBMatrix, RGBMatrixOptions
 from typing import Protocol
 import threading
+import paho.mqtt.client as mqtt
 
 
 class Renderer(Protocol):
@@ -100,12 +101,40 @@ class RendererShellThread:
         print("No more running :(")
 
 
+class MqttBridge():
+
+    TOPIC_COMMAND_NAME = f"test/zero/command"
+
+    def __init__(self, shell: RendererShellThread):
+        MQTT_SERVER_IP = "192.168.199.119"
+        mqtt_client = mqtt.Client("CHANGE_ME_LATER")
+        mqtt_client.connect(MQTT_SERVER_IP)
+        print("Connected to MQTT...")
+        mqtt_client.loop_start()
+        mqtt_client.subscribe(MqttBridge.TOPIC_COMMAND_NAME)
+        mqtt_client.on_message = self.on_message
+        self.shell = shell
+        self.mqtt_client = mqtt_client
+
+
+    def on_message(self, client, userdata, message: mqtt.MQTTMessage) -> None:
+        topic: str = str(message.topic)
+        command: str = message.payload.decode("UTF-8")
+        if topic == MqttBridge.TOPIC_COMMAND_NAME:
+            print(f"Received command: {command}")
+            if command == "exit":
+                self.mqtt_client.disconnect()
+                self.mqtt_client.loop_stop()
+                self.shell.keep_running = False
+
+
 def main():
     shell = RendererShellThread()
-    print("MainThread: Will wait 10 seconds...")
-    time.sleep(10)
-    print("Waited ein will stop Shell Render Thread")
-    shell.keep_running = False
+
+    mqtt_bridge = MqttBridge(shell)
+    while shell.keep_running:
+        time.sleep(0.1)
+    print("All done.")
                 
 
 if __name__ == '__main__':
