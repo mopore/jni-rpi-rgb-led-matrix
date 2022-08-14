@@ -64,7 +64,7 @@ class HeatColorizer:
 		self.red: float = 0
 		self.green: float = 0
 		self.blue: float = 0
-		self.max: int = 0
+		self.max: int = max
 
 	def get_red(self) -> int:
 		return int(self.red)

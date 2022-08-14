@@ -23,9 +23,9 @@ class RendererShellThread:
 
         self.renderer_counter = 0
         self.renderers: list[renderer.Renderer] = [
+            renderer.HeatDisplayRenderer(),
             renderer.AnimatedGifRenderer(RendererShellThread.SHOOTER_PATH),
             renderer.RunTextRenderer("Ey!!!"),
-            renderer.HeatDisplayRenderer()
         ]
 
         threading.Thread(target=self.run).start()
