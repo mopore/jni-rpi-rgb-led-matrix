@@ -58,6 +58,30 @@ class RunTextRenderer(Renderer):
 		time.sleep(0.05)
 
 
+class HeatColorizer:
+
+	def __init__(self, max: int) -> None:
+		self.red: float = 0
+		self.green: float = 0
+		self.blue: float = 0
+		self.max: int = 0
+
+	def get_red(self) -> int:
+		return int(self.red)
+
+	def get_blue(self) -> int:
+		return int(self.blue)
+
+	def get_green(self) -> int:
+		return int(self.green)
+
+	def update(self, row: int, column: int) -> None:
+		red_share = row / self.max
+		self.red = 255 * red_share
+		blue_share = self.max - (row / self.max)
+		self.blue = 255 * blue_share
+
+
 class HeatDisplayRenderer(Renderer):
 	""" This will show a 32x32 pixel array in the middle of the display with colors from blue to 
 		red """
@@ -71,8 +95,16 @@ class HeatDisplayRenderer(Renderer):
 	def __init__(self) -> None:
 		self.startx = (HeatDisplayRenderer.CANVAS_WIDTH / 2) - (HeatDisplayRenderer.ARRAY_WIDTH / 2) 
 		self.starty = (HeatDisplayRenderer.CANVAS_HEIGHT / 2) - (HeatDisplayRenderer.ARRAY_HEIGHT / 2) 
+		self.colorizer = HeatColorizer(32)
 
 	def render(self, offscreen_canvas: FrameCanvas) -> None:
 		for row in range(0, HeatDisplayRenderer.ARRAY_HEIGHT):
 			for column in range(0, HeatDisplayRenderer.ARRAY_WIDTH):
-				offscreen_canvas.SetPixel(self.startx + column, self.starty + row, 255, 255, 255)
+				self.colorizer.update(row, column)
+				offscreen_canvas.SetPixel(
+					self.startx + column, 
+					self.starty + row, 
+					self.colorizer.get_red(), 
+					self.colorizer.get_green(), 
+					self.colorizer.get_blue()
+				)
