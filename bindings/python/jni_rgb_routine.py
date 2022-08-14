@@ -109,7 +109,8 @@ class MqttBridge():
         MQTT_SERVER_IP = "192.168.199.119"
         mqtt_client = mqtt.Client("CHANGE_ME_LATER")
         mqtt_client.connect(MQTT_SERVER_IP)
-        print("Connected to MQTT...")
+        print(f"Connected to MQTT({MQTT_SERVER_IP})...")
+        print(f"Publish 'exit' to topic {MqttBridge.TOPIC_COMMAND_NAME}")
         mqtt_client.loop_start()
         mqtt_client.subscribe(MqttBridge.TOPIC_COMMAND_NAME)
         mqtt_client.on_message = self.on_message
