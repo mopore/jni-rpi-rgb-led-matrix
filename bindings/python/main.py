@@ -29,10 +29,12 @@ class RendererShellThread:
         ]
 
         threading.Thread(target=self.run).start()
-
+    
     def run(self) -> None:
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         frame_counter = 0
+        fps_timestamp = time.monotonic()
+        fps_last_frame = frame_counter
         while self.keep_running:
             offscreen_canvas.Clear()
             self.renderers[self.renderer_counter].render(offscreen_canvas)
@@ -43,6 +45,14 @@ class RendererShellThread:
                 if self.renderer_counter == 3:
                     self.renderer_counter = 0
                 print(f"Switching renderer at Frame No. {frame_counter}")
+            timepassed = time.monotonic() - fps_timestamp
+            if timepassed > 5:
+                frames_total = frame_counter - fps_last_frame
+                fps_now = frames_total / 5
+                print(f"FPS: {fps_now}")
+                fps_timestamp = time.monotonic()
+                fps_last_frame = frame_counter
+         
         print("No more running :(")
 
 
