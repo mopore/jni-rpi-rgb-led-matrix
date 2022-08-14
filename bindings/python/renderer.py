@@ -60,6 +60,9 @@ class RunTextRenderer(Renderer):
 
 class HeatDisplayRenderer(Renderer):
 
+	def __init__(self) -> None:
+		pass
+
 	def render(self, offscreen_canvas: FrameCanvas) -> None:
 		for i in range(0, offscreen_canvas.width):
 			offscreen_canvas.SetPixel(i, (offscreen_canvas.height / 2), 255, 255, 255)
