@@ -79,7 +79,7 @@ class HeatColorizer:
 		print(f"row: {row}, column: {column}, max: {self.max}")
 		red_share = row / self.max
 		self.red = 255 * red_share
-		blue_share = self.max - (row / self.max)
+		blue_share = 1 - (row / self.max)
 		self.blue = 255 * blue_share
 		print(f"red: {self.red}, blue: {self.blue}")
 
