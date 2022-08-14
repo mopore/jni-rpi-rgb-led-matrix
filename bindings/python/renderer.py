@@ -59,10 +59,20 @@ class RunTextRenderer(Renderer):
 
 
 class HeatDisplayRenderer(Renderer):
+	""" This will show a 32x32 pixel array in the middle of the display with colors from blue to 
+		red """
+
+	CANVAS_WIDTH = 64
+	CANVAS_HEIGHT = 32
+
+	ARRAY_WIDTH = 32
+	ARRAY_HEIGHT = 32
 
 	def __init__(self) -> None:
-		pass
+		self.startx = (HeatDisplayRenderer.CANVAS_WIDTH / 2) - (HeatDisplayRenderer.ARRAY_WIDTH / 2) 
+		self.starty = (HeatDisplayRenderer.CANVAS_HEIGHT / 2) - (HeatDisplayRenderer.ARRAY_HEIGHT / 2) 
 
 	def render(self, offscreen_canvas: FrameCanvas) -> None:
-		for i in range(0, offscreen_canvas.width):
-			offscreen_canvas.SetPixel(i, (offscreen_canvas.height / 2), 255, 255, 255)
+		for row in range(0, HeatDisplayRenderer.ARRAY_HEIGHT):
+			for column in range(0, HeatDisplayRenderer.ARRAY_WIDTH):
+				offscreen_canvas.SetPixel(self.startx + column, self.starty + row, 255, 255, 255)
