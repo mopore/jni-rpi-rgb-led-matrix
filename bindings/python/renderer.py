@@ -76,9 +76,9 @@ class HeatColorizer:
 		return int(self.green)
 
 	def update(self, row: int, column: int) -> None:
-		red_share = row / self.max
+		red_share = column / self.max
 		self.red = 255 * red_share
-		blue_share = 1 - (row / self.max)
+		blue_share = 1 - (column / self.max)
 		self.blue = 255 * blue_share
 
 
