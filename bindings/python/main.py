@@ -4,6 +4,8 @@ import threading
 import paho.mqtt.client as mqtt
 import renderer
 
+ONE_SECOND = 1
+
 
 class RendererShellThread:
 
@@ -21,7 +23,7 @@ class RendererShellThread:
         options.led_rgb_sequence = 'RBG'
         self.matrix = RGBMatrix(options=options)
 
-        self.renderer_counter = 0
+        self.selected_renderer_index = 0
         self.renderers: list[renderer.Renderer] = [
             renderer.HeatDisplayRenderer(),
             renderer.AnimatedGifRenderer(RendererShellThread.SHOOTER_PATH),
@@ -33,25 +35,27 @@ class RendererShellThread:
     def run(self) -> None:
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         frame_counter = 0
-        fps_timestamp = time.monotonic()
+        fps_last_timestamp = time.monotonic()
         fps_last_frame = frame_counter
+        secs_per_scene = 0
         while self.keep_running:
             offscreen_canvas.Clear()
-            self.renderers[self.renderer_counter].render(offscreen_canvas)
+            self.renderers[self.selected_renderer_index].render(offscreen_canvas)
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
             frame_counter += 1
-            if frame_counter % 1000 == 0:
-                self.renderer_counter += 1
-                if self.renderer_counter == 3:
-                    self.renderer_counter = 0
-                print(f"Switching renderer at Frame No. {frame_counter}")
-            timepassed = time.monotonic() - fps_timestamp
-            if timepassed > 5:
-                frames_total = frame_counter - fps_last_frame
-                fps_now = frames_total / 5
+            timepassed = time.monotonic() - fps_last_timestamp
+            if timepassed > ONE_SECOND:
+                secs_per_scene += 1
+                fps_now = frame_counter - fps_last_frame
                 print(f"FPS: {fps_now} ", end="\r")
-                fps_timestamp = time.monotonic()
+                fps_last_timestamp = time.monotonic()
                 fps_last_frame = frame_counter
+            if secs_per_scene > 5:
+                print(f"Switching renderer at Frame No. {frame_counter}")
+                self.selected_renderer_index += 1
+                if self.selected_renderer_index == len(self.renderers):
+                    self.selected_renderer_index = 0
+                secs_per_scene = 0
          
         print("No more running :(")
 
