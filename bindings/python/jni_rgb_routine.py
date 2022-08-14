@@ -6,7 +6,7 @@ import renderer
 
 
 class RendererShellThread:
-    
+
     SHOOTER_PATH = "./shooter.gif"
 
     def __init__(self):
@@ -22,7 +22,7 @@ class RendererShellThread:
         self.matrix = RGBMatrix(options=options)
 
         self.renderer_counter = 0
-		self.renderers: list[renderer.Renderer] = [
+        self.renderers: list[renderer.Renderer] = [
             renderer.AnimatedGifRenderer(RendererShellThread.SHOOTER_PATH),
             renderer.RunTextRenderer("Ey!!!"),
             renderer.HeatDisplayRenderer()
@@ -80,7 +80,7 @@ def main():
     while shell.keep_running:
         time.sleep(0.1)
     print("All done.")
-                
+
 
 if __name__ == '__main__':
     main()
