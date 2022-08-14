@@ -40,7 +40,7 @@ class RendererShellThread:
             self.renderers[self.renderer_counter].render(offscreen_canvas)
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
             frame_counter += 1
-            if frame_counter % 100 == 0:
+            if frame_counter % 1000 == 0:
                 self.renderer_counter += 1
                 if self.renderer_counter == 3:
                     self.renderer_counter = 0
@@ -49,7 +49,7 @@ class RendererShellThread:
             if timepassed > 5:
                 frames_total = frame_counter - fps_last_frame
                 fps_now = frames_total / 5
-                print(f"FPS: {fps_now}")
+                print(f"FPS: {fps_now} ", end="\r")
                 fps_timestamp = time.monotonic()
                 fps_last_frame = frame_counter
          
