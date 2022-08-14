@@ -76,10 +76,12 @@ class HeatColorizer:
 		return int(self.green)
 
 	def update(self, row: int, column: int) -> None:
+		print(f"row: {row}, column: {column}, max: {self.max}")
 		red_share = row / self.max
 		self.red = 255 * red_share
 		blue_share = self.max - (row / self.max)
 		self.blue = 255 * blue_share
+		print(f"red: {self.red}, blue: {self.blue}")
 
 
 class HeatDisplayRenderer(Renderer):
