@@ -91,8 +91,8 @@ class MqttBridge():
                 self.mqtt_client.disconnect()
                 self.mqtt_client.loop_stop()
                 self.shell.keep_running = False
-            else:
-                self.shell.handle_message(topic, message_text)
+        else:
+            self.shell.handle_message(topic, message_text)
 
 
 def main():
