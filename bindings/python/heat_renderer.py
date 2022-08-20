@@ -66,6 +66,7 @@ class DataProvider:
 class HeatColorizer:
 
 	def __init__(self, data_provider: DataProvider) -> None:
+		self.data: np.ndarray | None = None
 		json_string = data_provider.collect_data()
 		if (json_string is not None):
 			sensor_data: list[list[float]] = json.loads(json_string, object_hook=as_sensor_data)
