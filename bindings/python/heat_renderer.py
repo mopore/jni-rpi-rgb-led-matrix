@@ -76,15 +76,19 @@ class HeatColorizer:
 		if self.data is None:
 			return 0
 		value = self.data[row][column]
-		red_value = 255 * (value / 100)
-		return int(red_value)
+		final_value = 255 * (value / 100)
+		if final_value < 0:
+			print(f"red: {final_value}")	
+		return int(final_value)
 
 	def get_blue(self, row: int, column: int) -> int:
 		if self.data is None:
 			return 0
 		value = self.data[row][column]
-		blue_value = 255 - (255 * (value / 100))
-		return int(blue_value)
+		final_value = 255 - (255 * (value / 100))
+		if final_value < 0:
+			print(f"blue: {final_value}")	
+		return int(final_value)
 
 	def get_green(self, row: int, column: int) -> int:
 		return 0
@@ -109,18 +113,13 @@ class HeatvisionRenderer(Renderer):
 		colorizer = HeatColorizer(self.data_provider)
 		for row in range(0, HeatvisionRenderer.ARRAY_HEIGHT):
 			for column in range(0, HeatvisionRenderer.ARRAY_WIDTH):
-				# FIXME Remove me after bugfixing	
-				try:
-					offscreen_canvas.SetPixel(
-						self.startx + column, 
-						self.starty + row, 
-						colorizer.get_red(row, column), 
-						colorizer.get_green(row, column),
-						colorizer.get_blue(row, column),
-					)
-				except Exception as e:
-					print(f"{self.startx}, {self.starty}, {row}, {column}")	
-					raise e
+				offscreen_canvas.SetPixel(
+					self.startx + column, 
+					self.starty + row, 
+					colorizer.get_red(row, column), 
+					colorizer.get_green(row, column),
+					colorizer.get_blue(row, column),
+				)
 	
 	def receive_heatvision_data(self, text: str) -> None:
 		self.data_provider.store_data(text)
