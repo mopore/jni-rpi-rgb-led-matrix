@@ -84,9 +84,6 @@ class HeatColorizer:
 			return 0
 		value = self.data[row][column]
 		blue_value = 255 - (255 * (value / 100))
-		# FIXME Remove the following lines after bugfixing
-		if blue_value < 0:
-			print(f"Problem: blue value {blue_value}, orig: ${value}")
 		return int(blue_value)
 
 	def get_green(self, row: int, column: int) -> int:
@@ -112,13 +109,18 @@ class HeatvisionRenderer(Renderer):
 		colorizer = HeatColorizer(self.data_provider)
 		for row in range(0, HeatvisionRenderer.ARRAY_HEIGHT):
 			for column in range(0, HeatvisionRenderer.ARRAY_WIDTH):
-				offscreen_canvas.SetPixel(
-					self.startx + column, 
-					self.starty + row, 
-					colorizer.get_red(row, column), 
-					colorizer.get_green(row, column),
-					colorizer.get_blue(row, column),
-				)
+				# FIXME Remove me after bugfixing	
+				try:
+					offscreen_canvas.SetPixel(
+						self.startx + column, 
+						self.starty + row, 
+						colorizer.get_red(row, column), 
+						colorizer.get_green(row, column),
+						colorizer.get_blue(row, column),
+					)
+				except Exception as e:
+					print(f"{self.startx}, {self.starty}, {row}, {column}")	
+					raise e
 	
 	def receive_heatvision_data(self, text: str) -> None:
 		self.data_provider.store_data(text)
