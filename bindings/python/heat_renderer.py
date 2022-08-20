@@ -117,7 +117,7 @@ class HeatvisionRenderer(Renderer):
 		colorizer = HeatColorizer(self.data_provider)
 		for row in range(0, HeatvisionRenderer.ARRAY_HEIGHT):
 			for column in range(0, HeatvisionRenderer.ARRAY_WIDTH):
-				mirrored_x = HeatvisionRenderer.MATRIX_WIDTH - 1 - column
+				mirrored_x = HeatvisionRenderer.ARRAY_WIDTH - 1 - column
 				offscreen_canvas.SetPixel(
 					self.startx + mirrored_x, 
 					self.starty + row, 
