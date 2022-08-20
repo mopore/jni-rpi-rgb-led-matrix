@@ -84,6 +84,9 @@ class HeatColorizer:
 			return 0
 		value = self.data[row][column]
 		blue_value = 255 - (255 * (value / 100))
+		# FIXME Remove the following lines after bugfixing
+		if blue_value < 0:
+			print(f"Problem: blue value {blue_value}, orig: ${value}")
 		return int(blue_value)
 
 	def get_green(self, row: int, column: int) -> int:
