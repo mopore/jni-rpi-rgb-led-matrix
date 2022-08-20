@@ -29,7 +29,7 @@ def sensor_data_to_32_32_colored(sensor_data: list[list[float]]) -> np.ndarray:
 	pixels = []
 	for row in sensor_data:
 		pixels = pixels + row
-	pixels = [map_value(p, 0, VALUE_RANGE - 1) for p in pixels]
+	pixels = [map_value(p, 0, VALUE_RANGE) for p in pixels]
 
 	# pylint: disable=invalid-slice-index
 	points = [(math.floor(ix / 8), (ix % 8)) for ix in range(0, 64)]
@@ -77,8 +77,6 @@ class HeatColorizer:
 			return 0
 		value = self.data[row][column]
 		final_value = 255 * (value / 100)
-		if final_value < 0:
-			print(f"red: {final_value}, orig: {value}")	
 		return int(final_value)
 
 	def get_blue(self, row: int, column: int) -> int:
@@ -86,8 +84,6 @@ class HeatColorizer:
 			return 0
 		value = self.data[row][column]
 		final_value = 255 - (255 * (value / 100))
-		if final_value < 0:
-			print(f"blue: {final_value}, orig: {value}")	
 		return int(final_value)
 
 	def get_green(self, row: int, column: int) -> int:
