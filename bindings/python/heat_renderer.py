@@ -78,7 +78,7 @@ class HeatColorizer:
 		value = self.data[row][column]
 		final_value = 255 * (value / 100)
 		if final_value < 0:
-			print(f"red: {final_value}")	
+			print(f"red: {final_value}, orig: {value}")	
 		return int(final_value)
 
 	def get_blue(self, row: int, column: int) -> int:
@@ -87,7 +87,7 @@ class HeatColorizer:
 		value = self.data[row][column]
 		final_value = 255 - (255 * (value / 100))
 		if final_value < 0:
-			print(f"blue: {final_value}")	
+			print(f"blue: {final_value}, orig: {value}")	
 		return int(final_value)
 
 	def get_green(self, row: int, column: int) -> int:
