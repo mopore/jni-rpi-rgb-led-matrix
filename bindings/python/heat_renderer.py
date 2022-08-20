@@ -79,6 +79,8 @@ class HeatColorizer:
 		final_value = 255 * (value / 100)
 		if final_value < 0:
 			final_value = 0
+		if final_value > 255:
+			final_value = 255
 		return int(final_value)
 
 	def get_blue(self, row: int, column: int) -> int:
@@ -88,6 +90,8 @@ class HeatColorizer:
 		final_value = 255 - (255 * (value / 100))
 		if final_value < 0:
 			final_value = 0
+		if final_value > 255:
+			final_value = 255
 		return int(final_value)
 
 	def get_green(self, row: int, column: int) -> int:
