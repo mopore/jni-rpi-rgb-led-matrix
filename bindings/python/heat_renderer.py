@@ -9,7 +9,7 @@ import numpy as np
 
 VALUE_RANGE = 100
 MINTEMP = 20.0  # low range of the sensor (this will be blue on the screen)
-MAXTEMP = 35.0  # high range of the sensor (this will be red on the screen)
+MAXTEMP = 32.0  # high range of the sensor (this will be red on the screen)
 
 
 def map_value(x, out_min, out_max):

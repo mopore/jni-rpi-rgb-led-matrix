@@ -21,7 +21,8 @@ class RendererShellThread:
         options.chain_length = 1
         options.parallel = 1
         options.hardware_mapping = 'adafruit-hat'
-        options.led_rgb_sequence = 'RBG'
+        options.led_rgb_sequence = 'RGB'
+        #  options.led_rgb_sequence = 'RBG'
         self.matrix = RGBMatrix(options=options)
 
         self.selected_renderer_index = 0
