@@ -11,6 +11,7 @@ ONE_SECOND = 1
 class RendererShellThread:
 
     SHOOTER_PATH = "./shooter.gif"
+    ROCKET_PATH = "./rocket_launch_vertical.gif"
 
     def __init__(self):
         self.keep_running = True
@@ -28,9 +29,10 @@ class RendererShellThread:
         self.selected_renderer_index = 0
         self.heatvision_renderer = HeatvisionRenderer()
         self.renderers: list[renderer.Renderer] = [
-            self.heatvision_renderer,
-            # renderer.AnimatedGifRenderer(RendererShellThread.SHOOTER_PATH),
+            #  self.heatvision_renderer,
+            #  renderer.AnimatedGifRenderer(self.SHOOTER_PATH),
             # renderer.RunTextRenderer("Ey!!!"),
+            renderer.AnimatedGifRenderer(self.ROCKET_PATH),
         ]
         threading.Thread(target=self.run).start()
     
