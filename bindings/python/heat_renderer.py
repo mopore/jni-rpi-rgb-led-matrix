@@ -6,7 +6,7 @@ from renderer import Renderer
 from scipy.interpolate import griddata
 import numpy as np
 
-
+MAX_COLOR = 255
 VALUE_RANGE = 100
 MINTEMP = 20.0  # low range of the sensor (this will be blue on the screen)
 MAXTEMP = 32.0  # high range of the sensor (this will be red on the screen)
@@ -76,22 +76,22 @@ class HeatColorizer:
 		if self.data is None:
 			return 0
 		value = self.data[row][column]
-		final_value = 255 * (value / 100)
+		final_value = MAX_COLOR * (value / 100)
 		if final_value < 0:
 			final_value = 0
-		if final_value > 255:
-			final_value = 255
+		if final_value > MAX_COLOR:
+			final_value = MAX_COLOR
 		return int(final_value)
 
 	def get_blue(self, row: int, column: int) -> int:
 		if self.data is None:
 			return 0
 		value = self.data[row][column]
-		final_value = 255 - (255 * (value / 100))
+		final_value = MAX_COLOR - (MAX_COLOR * (value / 100))
 		if final_value < 0:
 			final_value = 0
-		if final_value > 255:
-			final_value = 255
+		if final_value > MAX_COLOR:
+			final_value = MAX_COLOR
 		return int(final_value)
 
 	def get_green(self, row: int, column: int) -> int:
