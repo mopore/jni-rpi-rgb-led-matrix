@@ -47,11 +47,11 @@ class JsonDataCollector:
 		self.data: str | None = None
 		self.last_date_timestamp: float | None = None
 
-	def store_data(self, text: str) -> None:
+	def store(self, text: str) -> None:
 		self.last_date_timestamp = time.monotonic()
 		self.data = text
 
-	def collect(self) -> str | None:
+	def release(self) -> str | None:
 		if self.data is not None:
 			if self.last_date_timestamp is not None:
 				time_passed = time.monotonic() - self.last_date_timestamp
@@ -67,7 +67,7 @@ class HeatColorizer:
 
 	def __init__(self, collector: JsonDataCollector) -> None:
 		self.data: np.ndarray | None = None
-		json_string = collector.collect()
+		json_string = collector.release()
 		if (json_string is not None):
 			sensor_data: list[list[float]] = json.loads(json_string, object_hook=as_sensor_data)
 			self.data = sensor_data_to_32_32_colored(sensor_data)
@@ -127,4 +127,4 @@ class HeatvisionRenderer(Renderer):
 				)
 	
 	def receive_heatvision_data(self, text: str) -> None:
-		self.data_provider.store_data(text)
+		self.data_provider.store(text)
