@@ -102,22 +102,22 @@ class HeatvisionRenderer(Renderer):
 	""" This will show a 32x32 pixel array in the middle of the display with colors from blue to 
 		red """
 
-	MATRIX_WIDTH = 64
-	MATRIX_HEIGHT = 32
+	TOTAL_WIDTH = 64
+	TOTAL_HEIGHT = 32
 
-	ARRAY_WIDTH = 32
-	ARRAY_HEIGHT = 32
+	CANVAS_WIDTH = 32
+	CANVAS_HEIGHT = 32
 
 	def __init__(self) -> None:
-		self.startx = (HeatvisionRenderer.MATRIX_WIDTH / 2) - (HeatvisionRenderer.ARRAY_WIDTH / 2) 
-		self.starty = (HeatvisionRenderer.MATRIX_HEIGHT / 2) - (HeatvisionRenderer.ARRAY_HEIGHT / 2) 
+		self.startx = (self.TOTAL_WIDTH / 2) - (self.CANVAS_WIDTH / 2) 
+		self.starty = (self.TOTAL_HEIGHT / 2) - (self.CANVAS_HEIGHT / 2) 
 		self.data_provider = DataProvider()
 
 	def render(self, offscreen_canvas: FrameCanvas) -> None:
 		colorizer = HeatColorizer(self.data_provider)
-		for row in range(0, HeatvisionRenderer.ARRAY_HEIGHT):
-			for column in range(0, HeatvisionRenderer.ARRAY_WIDTH):
-				mirrored_x = HeatvisionRenderer.ARRAY_WIDTH - 1 - column
+		for row in range(0, self.CANVAS_HEIGHT):
+			for column in range(0, self.CANVAS_WIDTH):
+				mirrored_x = self.CANVAS_WIDTH - 1 - column
 				offscreen_canvas.SetPixel(
 					self.startx + mirrored_x, 
 					self.starty + row, 
