@@ -41,7 +41,7 @@ def sensor_data_to_32_32_colored(sensor_data: list[list[float]]) -> np.ndarray:
 	return bicubic
 
 
-class DataProvider:
+class JsonDataCollector:
 	def __init__(self) -> None:
 		self.keep_alive = True
 		self.data: str | None = None
@@ -51,7 +51,7 @@ class DataProvider:
 		self.last_date_timestamp = time.monotonic()
 		self.data = text
 
-	def collect_data(self) -> str | None:
+	def collect(self) -> str | None:
 		if self.data is not None:
 			if self.last_date_timestamp is not None:
 				time_passed = time.monotonic() - self.last_date_timestamp
@@ -65,9 +65,9 @@ class DataProvider:
 
 class HeatColorizer:
 
-	def __init__(self, data_provider: DataProvider) -> None:
+	def __init__(self, collector: JsonDataCollector) -> None:
 		self.data: np.ndarray | None = None
-		json_string = data_provider.collect_data()
+		json_string = collector.collect()
 		if (json_string is not None):
 			sensor_data: list[list[float]] = json.loads(json_string, object_hook=as_sensor_data)
 			self.data = sensor_data_to_32_32_colored(sensor_data)
@@ -111,7 +111,7 @@ class HeatvisionRenderer(Renderer):
 	def __init__(self) -> None:
 		self.startx = (self.TOTAL_WIDTH / 2) - (self.CANVAS_WIDTH / 2) 
 		self.starty = (self.TOTAL_HEIGHT / 2) - (self.CANVAS_HEIGHT / 2) 
-		self.data_provider = DataProvider()
+		self.data_provider = JsonDataCollector()
 
 	def render(self, offscreen_canvas: FrameCanvas) -> None:
 		colorizer = HeatColorizer(self.data_provider)
