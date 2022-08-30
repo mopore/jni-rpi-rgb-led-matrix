@@ -7,7 +7,7 @@ import renderer
 
 ONE_SECOND = 1
 TOPIC_COMMAND_NAME = "jniHome/services/heatvision1/command"
-TOPIC_DATA_NAME = "jniHome/services/heatvision1/data"
+
 EXIT_COMMAND_NAME = "exit"
 
 
@@ -16,7 +16,7 @@ class RendererShellThread:
     SHOOTER_PATH = "./shooter.gif"
     ROCKET_PATH = "./rocket_launch_vertical.gif"
 
-    def __init__(self):
+    def __init__(self, mqtt_bridge: MqttBridge):
         self.keep_running = True
 
         options = RGBMatrixOptions()
@@ -30,7 +30,7 @@ class RendererShellThread:
         self.matrix = RGBMatrix(options=options)
 
         self.selected_renderer_index = 0
-        self.heatvision_renderer = HeatvisionRenderer()
+        self.heatvision_renderer = HeatvisionRenderer(mqtt_bridge)
         self.renderers: list[renderer.Renderer] = [
             self.heatvision_renderer,
             #  renderer.AnimatedGifRenderer(self.SHOOTER_PATH),
@@ -66,15 +66,14 @@ class RendererShellThread:
          
         print("No more running :(")
 
-    def handle_message(self, topic: str, text: str) -> None:
-        self.heatvision_renderer.receive_heatvision_data(text)
-    
+
 
 def main():
     shell = RendererShellThread()
     mqtt_bridge = MqttBridge()
     
     def exit_listener(topic: str, message: str) -> None:
+        print("Exit listener triggered. '{topic}' '{message}'")
         if topic == TOPIC_COMMAND_NAME:
             if message == "exit":
                 mqtt_bridge.stop()
