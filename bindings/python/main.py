@@ -69,8 +69,8 @@ class RendererShellThread:
 
 class MqttBridge():
 
-    TOPIC_COMMAND_NAME = "test/zero/command"
-    HEATVISION_TOPIC_NAME = "test/heatvision"
+    TOPIC_COMMAND_NAME = "jniHome/services/heatvision1/command"
+    HEATVISION_TOPIC_NAME = "jniHome/services/heatvision1/data"
 
     def __init__(self, shell: RendererShellThread):
         MQTT_SERVER_IP = "192.168.199.119"
