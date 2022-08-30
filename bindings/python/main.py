@@ -70,7 +70,7 @@ class RendererShellThread:
 class MqttBridge():
 
     TOPIC_COMMAND_NAME = "jniHome/services/heatvision1/command"
-    HEATVISION_TOPIC_NAME = "jniHome/services/heatvision1/data"
+    TOPIC_DATA_NAME = "jniHome/services/heatvision1/data"
 
     def __init__(self, shell: RendererShellThread):
         MQTT_SERVER_IP = "192.168.199.119"
@@ -80,7 +80,7 @@ class MqttBridge():
         print(f"Publish 'exit' to topic {MqttBridge.TOPIC_COMMAND_NAME}")
         mqtt_client.loop_start()
         mqtt_client.subscribe(MqttBridge.TOPIC_COMMAND_NAME)
-        mqtt_client.subscribe(MqttBridge.HEATVISION_TOPIC_NAME)
+        mqtt_client.subscribe(MqttBridge.TOPIC_DATA_NAME)
         mqtt_client.on_message = self.on_message
         self.shell = shell
         self.mqtt_client = mqtt_client
