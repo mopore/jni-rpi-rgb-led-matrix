@@ -20,11 +20,16 @@ class MqttBridge():
         cb = self.topic_cbs[topic]
         if cb is not None:
             cb(topic, message_text)
+        else:
+            # TODO Remove me later
+            print(f"Could not find a callback for '{topic}'")
 
     def publish(self, topic: str, message: str) -> None:
         self.mqtt_client.publish(topic, message)
     
     def subscribe_with_cb(self, topic: str, cb: Callable[[str, str], None]):
+        # TODO Remove me later
+        print(f"Subscribing on '{topic}'")
         self.mqtt_client.subscribe(topic)
         self.topic_cbs[topic] = cb
 
