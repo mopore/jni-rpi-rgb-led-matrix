@@ -67,10 +67,9 @@ class RendererShellThread:
         print("No more running :(")
 
 
-
 def main():
-    shell = RendererShellThread()
     mqtt_bridge = MqttBridge()
+    shell = RendererShellThread(mqtt_bridge)
     
     def exit_listener(topic: str, message: str) -> None:
         print("Exit listener triggered. '{topic}' '{message}'")
