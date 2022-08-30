@@ -1,7 +1,7 @@
 import json
 import math
 import time
-from bindings.python.mqtt_bridge import MqttBridge
+from mqtt_bridge import MqttBridge
 from rgbmatrix import FrameCanvas
 from renderer import Renderer
 from scipy.interpolate import griddata
