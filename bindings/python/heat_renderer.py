@@ -118,13 +118,12 @@ class HeatvisionRenderer(Renderer):
 		for row in range(0, self.CANVAS_HEIGHT):
 			for column in range(0, self.CANVAS_WIDTH):
 				mirrored_x = self.CANVAS_WIDTH - 1 - column
-				offscreen_canvas.SetPixel(
-					self.startx + mirrored_x, 
-					self.starty + row, 
-					colorizer.get_red(row, column), 
-					colorizer.get_green(row, column),
-					colorizer.get_blue(row, column),
-				)
+				x_value = self.startx + mirrored_x
+				y_value = self.starty + row
+				red_value = colorizer.get_red(row, column)
+				green_value = colorizer.get_green(row, column)
+				blue_value = colorizer.get_blue(row, column)
+				offscreen_canvas.SetPixel(x_value, y_value, red_value, green_value, blue_value)
 	
 	def receive_heatvision_data(self, text: str) -> None:
 		self.data_provider.store(text)
