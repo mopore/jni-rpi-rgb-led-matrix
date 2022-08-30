@@ -2,10 +2,13 @@ import time
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 from heat_renderer import HeatvisionRenderer
 import threading
-import paho.mqtt.client as mqtt
+from mqtt_bridge import MqttBridge
 import renderer
 
 ONE_SECOND = 1
+TOPIC_COMMAND_NAME = "jniHome/services/heatvision1/command"
+TOPIC_DATA_NAME = "jniHome/services/heatvision1/data"
+EXIT_COMMAND_NAME = "exit"
 
 
 class RendererShellThread:
@@ -29,10 +32,10 @@ class RendererShellThread:
         self.selected_renderer_index = 0
         self.heatvision_renderer = HeatvisionRenderer()
         self.renderers: list[renderer.Renderer] = [
-            #  self.heatvision_renderer,
+            self.heatvision_renderer,
             #  renderer.AnimatedGifRenderer(self.SHOOTER_PATH),
             # renderer.RunTextRenderer("Ey!!!"),
-            renderer.AnimatedGifRenderer(self.ROCKET_PATH),
+            # renderer.AnimatedGifRenderer(self.ROCKET_PATH),
         ]
         threading.Thread(target=self.run).start()
     
@@ -65,44 +68,21 @@ class RendererShellThread:
 
     def handle_message(self, topic: str, text: str) -> None:
         self.heatvision_renderer.receive_heatvision_data(text)
-
-
-class MqttBridge():
-
-    TOPIC_COMMAND_NAME = "jniHome/services/heatvision1/command"
-    TOPIC_DATA_NAME = "jniHome/services/heatvision1/data"
-
-    def __init__(self, shell: RendererShellThread):
-        MQTT_SERVER_IP = "192.168.199.119"
-        mqtt_client = mqtt.Client("CHANGE_ME_LATER")
-        mqtt_client.connect(MQTT_SERVER_IP)
-        print(f"Connected to MQTT({MQTT_SERVER_IP})...")
-        print(f"Publish 'exit' to topic {MqttBridge.TOPIC_COMMAND_NAME}")
-        mqtt_client.loop_start()
-        mqtt_client.subscribe(MqttBridge.TOPIC_COMMAND_NAME)
-        mqtt_client.subscribe(MqttBridge.TOPIC_DATA_NAME)
-        mqtt_client.on_message = self.on_message
-        self.shell = shell
-        self.mqtt_client = mqtt_client
-
-    def on_message(self, client, userdata, message: mqtt.MQTTMessage) -> None:
-        topic: str = str(message.topic)
-        message_text: str = message.payload.decode("UTF-8")
-        if topic == MqttBridge.TOPIC_COMMAND_NAME:
-            print(f"Received command: {message_text}")
-            if message_text == "exit":
-                self.mqtt_client.disconnect()
-                self.mqtt_client.loop_stop()
-                self.shell.keep_running = False
-        else:
-            self.shell.handle_message(topic, message_text)
     
 
 def main():
     shell = RendererShellThread()
-
-    # TODO Use the Mqtt Bridge from mqtt_bridge.py
-    mqtt_bridge = MqttBridge(shell)
+    mqtt_bridge = MqttBridge()
+    
+    def exit_listener(topic: str, message: str) -> None:
+        if topic == TOPIC_COMMAND_NAME:
+            if message == "exit":
+                mqtt_bridge.stop()
+                shell.keep_running = False
+    
+    mqtt_bridge.subscribe_with_cb(TOPIC_COMMAND_NAME, exit_listener)
+    print(f"On topic '{TOPIC_COMMAND_NAME}' post '{EXIT_COMMAND_NAME}' to stop processing.")
+            
     while shell.keep_running:
         time.sleep(0.1)
     print("All done.")
