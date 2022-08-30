@@ -96,11 +96,12 @@ class MqttBridge():
                 self.shell.keep_running = False
         else:
             self.shell.handle_message(topic, message_text)
-
+    
 
 def main():
     shell = RendererShellThread()
 
+    # TODO Use the Mqtt Bridge from mqtt_bridge.py
     mqtt_bridge = MqttBridge(shell)
     while shell.keep_running:
         time.sleep(0.1)
