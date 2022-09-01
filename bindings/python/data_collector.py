@@ -1,12 +1,6 @@
 import time
 from typing import Protocol
 from mqtt_bridge import MqttBridge
-import numpy as np
-import json
-from level_interpolate import level_and_interpolate
-
-
-
 
 
 class DataCollector(Protocol):
