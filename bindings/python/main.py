@@ -37,8 +37,8 @@ class RendererShellThread:
         options.parallel = 1
         options.hardware_mapping = "adafruit-hat"
 
-        if test_running_on_test_rig:
-            options.led_rgb_sequence = 'RBG'
+        if test_running_on_test_rig():
+            options.led_rgb_sequence = "RBG"
         else:
             options.led_rgb_sequence = "RGB"
 
