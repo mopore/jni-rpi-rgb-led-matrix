@@ -9,7 +9,7 @@ from space_operation.space_operation_renderer import SpaceOperationRenderer
 
 
 ONE_SECOND = 1
-TOPIC_COMMAND_NAME = "jniHome/services/heatvision1/command"
+TOPIC_COMMAND_NAME = "jniHome/services/matrix_display/command"
 IP_TEST_RIG = "192.168.199.247"
 
 EXIT_COMMAND_NAME = "exit"
