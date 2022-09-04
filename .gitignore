@@ -2,3 +2,6 @@
 *.a
 *~
 *.so
+bindings/python/space_operation/space_operations.cert.pem
+bindings/python/space_operation/space_operations.private.key
+bindings/python/space_operation/aws-iot-device-sdk-python
