@@ -50,4 +50,6 @@ class SpaceOperationRenderer(Renderer):
     def _draw_border(self, x: int, y: int, border: int, width: int, height: int) -> bool:
         if y < border or y > height - border:
             return True
+        if x < border or x > width - border:
+            return True
         return False
