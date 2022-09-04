@@ -31,6 +31,7 @@ class AnimatedGifRenderer(Renderer):
 
 	def render(self, offscreen_canvas: FrameCanvas) -> None:
 		frame = self.frames[self.frameIndex]
+		# This is an artificial slow down!!!
 		time.sleep(frame.info['duration'] / 1000)
 		offscreen_canvas.SetImage(frame) 
 		self.frameIndex += 1
@@ -41,6 +42,7 @@ class AnimatedGifRenderer(Renderer):
 class RunTextRenderer(Renderer):
 
 	TEXT_ORANGE_COLOR = graphics.Color(255, 128, 0)
+	SIXTY_HERTZ = 0.0167
 
 	def __init__(self, text: str):
 		self.text = text
@@ -55,4 +57,4 @@ class RunTextRenderer(Renderer):
 		self.pos -= 1
 		if (self.pos + len < 0):
 			self.pos = offscreen_canvas.width
-		time.sleep(0.05)
+		time.sleep(self.SIXTY_HERTZ)
