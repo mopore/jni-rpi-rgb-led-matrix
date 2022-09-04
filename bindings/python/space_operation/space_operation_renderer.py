@@ -17,8 +17,8 @@ class SpaceOperationRenderer(Renderer):
 	def render(self, offscreen_canvas: FrameCanvas) -> None:
 		height = offscreen_canvas.height
 		width = offscreen_canvas.width
-		for x in width:
-			for y in height:
+		for x in range(width):
+			for y in range(height):
 				offscreen_canvas.SetPixel(x, y, 50, 50, 50)
 		graphics.DrawText(offscreen_canvas, self.font, 20, 20, self.textColor, 
 		self.text)
