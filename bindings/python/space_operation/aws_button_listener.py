@@ -9,10 +9,10 @@ class AwsButtonListener():
     
     def __init__(self, cb: Callable[[str, str], None] ) -> None:
         host = "a6ygioa4gqbri-ats.iot.eu-central-1.amazonaws.com"
-        rootCAPath = "root-CA.crt"
-        certificatePath = "space_operations.cert.pem"
-        privateKeyPath = "space_operations.private.key"
-        clientId = "test_space_operations_pub"  # client id must be in policy as client.
+        rootCAPath = "space_operation/root-CA.crt"
+        certificatePath = "space_operation/space_operations.cert.pem"
+        privateKeyPath = "space_operation/space_operations.private.key"
+        clientId = "space_operation_matrix"  # client id must be in policy as client.
         port = 8883
 
         # Init AWSIoTMQTTClient
