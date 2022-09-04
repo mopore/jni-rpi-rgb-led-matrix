@@ -16,10 +16,15 @@ class SpaceOperationRenderer(Renderer):
 		self.text = "Space OP"
 	
 	def render(self, offscreen_canvas: FrameCanvas) -> None:
+		start = time.monotonic()
 		height = offscreen_canvas.height
 		width = offscreen_canvas.width
 		for x in range(width):
 			for y in range(height):
 				offscreen_canvas.SetPixel(x, y, 10, 10, 10)
 		graphics.DrawText(offscreen_canvas, self.font, 10, 20, self.textColor, self.text)
-		# time.sleep(self.SIXTY_HERTZ)
+
+		rendering_time = time.monotonic() - start
+		time_to_pause = self.SIXTY_HERTZ - rendering_time
+		if rendering_time > 0:
+			time.sleep(time_to_pause)
