@@ -19,6 +19,5 @@ class SpaceOperationRenderer(Renderer):
 		width = offscreen_canvas.width
 		for x in range(width):
 			for y in range(height):
-				offscreen_canvas.SetPixel(x, y, 50, 50, 50)
-		graphics.DrawText(offscreen_canvas, self.font, 20, 20, self.textColor, 
-		self.text)
+				offscreen_canvas.SetPixel(x, y, 10, 10, 10)
+		graphics.DrawText(offscreen_canvas, self.font, 0, 20, self.textColor, self.text)
