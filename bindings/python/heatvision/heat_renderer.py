@@ -1,9 +1,9 @@
 from rgbmatrix import FrameCanvas
 from renderer import Renderer
 import numpy as np
-from heat_colorizer import HeatColorizer
-from data_collector import DataCollector, MqttDataCollector, MqttBridge
-from level_interpolate import json_to_interpolated_array
+from heatvision.heat_colorizer import HeatColorizer
+from heatvision.data_collector import DataCollector, MqttDataCollector, MqttBridge
+from heatvision.level_interpolate import json_to_interpolated_array
 
 
 class HeatvisionRenderer(Renderer):

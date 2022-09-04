@@ -1,6 +1,6 @@
 import time
 from typing import Protocol
-from mqtt_bridge import MqttBridge
+from heatvision.mqtt_bridge import MqttBridge
 
 
 class DataCollector(Protocol):
