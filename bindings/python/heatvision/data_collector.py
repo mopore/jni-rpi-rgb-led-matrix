@@ -1,6 +1,6 @@
 import time
 from typing import Protocol
-from bindings.python.mqtt_bridge import MqttBridge
+from mqtt_bridge import MqttBridge
 
 
 class DataCollector(Protocol):
