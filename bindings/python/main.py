@@ -27,6 +27,7 @@ def test_running_on_test_rig() -> bool:
 
 class RendererShellThread:
 
+    SIXTY_HERTZ = 0.0167
     SHOOTER_PATH = "./shooter.gif"
     ROCKET_PATH = "./rocket_launch_vertical.gif"
 
@@ -65,23 +66,28 @@ class RendererShellThread:
         fps_last_frame = frame_counter
         secs_per_scene = 0
         while self.keep_running:
+            frame_start = time.monotonic()
+
             offscreen_canvas.Clear()
             self.renderers[self.selected_renderer_index].render(offscreen_canvas)
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
             frame_counter += 1
-            timepassed = time.monotonic() - fps_last_timestamp
-            if timepassed > ONE_SECOND:
+            
+            frame_stop = time.monotonic()
+            rendering_time = frame_stop - frame_start
+            # Slow down to 60Hz if necessary
+            time_to_pause = self.SIXTY_HERTZ - rendering_time
+            if rendering_time > 0:
+                time.sleep(time_to_pause)
+
+            # FPS metrics
+            time_after_last_metrics = frame_stop - fps_last_timestamp
+            if time_after_last_metrics > ONE_SECOND:
                 secs_per_scene += 1
                 fps_now = frame_counter - fps_last_frame
                 print(f"FPS: {fps_now} ", end="\r")
                 fps_last_timestamp = time.monotonic()
                 fps_last_frame = frame_counter
-            if secs_per_scene > 5:
-                print(f"Switching renderer at Frame No. {frame_counter}")
-                self.selected_renderer_index += 1
-                if self.selected_renderer_index == len(self.renderers):
-                    self.selected_renderer_index = 0
-                secs_per_scene = 0
 
         print("No more running :(")
 

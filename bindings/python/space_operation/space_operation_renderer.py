@@ -6,7 +6,6 @@ from rgbmatrix import FrameCanvas, graphics
 class SpaceOperationRenderer(Renderer):
 
 	TEXT_ORANGE_COLOR = graphics.Color(255, 128, 0)
-	SIXTY_HERTZ = 0.0167
 
 	def __init__(self):
 		self.textColor = self.TEXT_ORANGE_COLOR
@@ -24,7 +23,3 @@ class SpaceOperationRenderer(Renderer):
 				offscreen_canvas.SetPixel(x, y, 10, 10, 10)
 		graphics.DrawText(offscreen_canvas, self.font, 10, 20, self.textColor, self.text)
 
-		rendering_time = time.monotonic() - start
-		time_to_pause = self.SIXTY_HERTZ - rendering_time
-		if rendering_time > 0:
-			time.sleep(time_to_pause)
