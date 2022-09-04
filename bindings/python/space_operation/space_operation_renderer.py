@@ -23,7 +23,7 @@ class SpaceOperationRenderer(Renderer):
             global message_counter
             print(f"Received message on topic '{topic}'")
 
-        self.listener = AwsButtonListener(topic_callback)
+        self.aws_listener = AwsButtonListener(topic_callback)
 
     def render(self, offscreen_canvas: FrameCanvas) -> None:
         height = offscreen_canvas.height
@@ -34,6 +34,20 @@ class SpaceOperationRenderer(Renderer):
         graphics.DrawText(
             offscreen_canvas, self.font, 10, 20, self.textColor, self.text
         )
-
+        self.draw_red_border(offscreen_canvas)
+  
+    def draw_red_border(self, offscreen_canvas: FrameCanvas, border: int = 3) -> None:
+        height = offscreen_canvas.height
+        width = offscreen_canvas.width
+        for x in range(width):
+            for y in range(height):
+                if self._draw_border(x, y, border, width, height):
+                    offscreen_canvas.SetPixel(x, y, 200, 0, 0)
+ 
     def exit(self) -> None:
-        self.listener.disconnect()
+        self.aws_listener.disconnect()
+
+    def _draw_border(self, x: int, y: int, border: int, width: int, height: int) -> bool:
+        if y < border or y > height - border:
+            return True
+        return False
