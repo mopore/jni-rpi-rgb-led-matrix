@@ -4,7 +4,7 @@ import renderer
 import subprocess
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 from heatvision.heat_renderer import HeatvisionRenderer
-from heatvision.mqtt_bridge import MqttBridge
+from mqtt_bridge import MqttBridge
 from space_operation.space_operation_renderer import SpaceOperationRenderer
 
 

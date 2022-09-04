@@ -30,11 +30,12 @@ class SpaceOperationRenderer(Renderer):
         self.aws_listener = AwsButtonListener(topic_callback)
 
     def render(self, offscreen_canvas: FrameCanvas) -> None:
-        height = offscreen_canvas.height
-        width = offscreen_canvas.width
-        for x in range(width):
-            for y in range(height):
-                offscreen_canvas.SetPixel(x, y, 10, 10, 10)
+        # height = offscreen_canvas.height
+        # width = offscreen_canvas.width
+        # Draw grey rectangle
+        # for x in range(width):
+        #     for y in range(height):
+        #         offscreen_canvas.SetPixel(x, y, 10, 10, 10)
         graphics.DrawText(
             offscreen_canvas, self.font, 10, 20, self.textColor, self.text
         )
