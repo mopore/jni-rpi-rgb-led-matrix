@@ -22,4 +22,4 @@ class SpaceOperationRenderer(Renderer):
 			for y in range(height):
 				offscreen_canvas.SetPixel(x, y, 10, 10, 10)
 		graphics.DrawText(offscreen_canvas, self.font, 10, 20, self.textColor, self.text)
-		time.sleep(self.SIXTY_HERTZ)
+		# time.sleep(self.SIXTY_HERTZ)
