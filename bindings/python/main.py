@@ -1,10 +1,12 @@
 import time
-from rgbmatrix import RGBMatrix, RGBMatrixOptions
-from heatvision.heat_renderer import HeatvisionRenderer
 import threading
-from heatvision.mqtt_bridge import MqttBridge
 import renderer
 import subprocess
+from rgbmatrix import RGBMatrix, RGBMatrixOptions
+from heatvision.heat_renderer import HeatvisionRenderer
+from heatvision.mqtt_bridge import MqttBridge
+from space_operation.space_operation_renderer import SpaceOperationRenderer
+
 
 ONE_SECOND = 1
 TOPIC_COMMAND_NAME = "jniHome/services/heatvision1/command"
@@ -46,8 +48,10 @@ class RendererShellThread:
         self.matrix = RGBMatrix(options=options)
         self.selected_renderer_index = 0
         self.heatvision_renderer = HeatvisionRenderer(mqtt_bridge)
+        self.space_operation = SpaceOperationRenderer()
         self.renderers: list[renderer.Renderer] = [
-            self.heatvision_renderer,
+
+            # self.heatvision_renderer,
             #  renderer.AnimatedGifRenderer(self.SHOOTER_PATH),
             # renderer.RunTextRenderer("Ey!!!"),
             # renderer.AnimatedGifRenderer(self.ROCKET_PATH),
