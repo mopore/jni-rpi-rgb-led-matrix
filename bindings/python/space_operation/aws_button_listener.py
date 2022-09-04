@@ -3,7 +3,7 @@ from typing import Callable
 import time
 
 
-class ButtonListener():
+class AwsButtonListener():
 
     TOPIC_BUTTON1 = "space_operation/buttons/button1"
     
@@ -47,7 +47,7 @@ class ButtonListener():
 
 
 message_counter = 0
-listener: ButtonListener | None = None
+listener: AwsButtonListener | None = None
 
 
 def main() -> None:
@@ -59,7 +59,7 @@ def main() -> None:
         print(f"Received message on topic '{topic}'")
         message_counter += 1
 
-    listener = ButtonListener(topic_callback)
+    listener = AwsButtonListener(topic_callback)
     print("Waiting for messages...")
      
     while message_counter < 2:
