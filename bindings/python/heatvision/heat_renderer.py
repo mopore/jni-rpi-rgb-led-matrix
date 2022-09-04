@@ -35,3 +35,6 @@ class HeatvisionRenderer(Renderer):
                 offscreen_canvas.SetPixel(
                     x_value, y_value, red_value, green_value, blue_value
                 )
+
+    def exit(self) -> None:
+        pass

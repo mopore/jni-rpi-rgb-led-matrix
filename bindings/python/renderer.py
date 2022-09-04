@@ -8,6 +8,9 @@ class Renderer(Protocol):
 
 	def render(self, offscreen_canvas: FrameCanvas) -> None:
 		...
+	
+	def exit(self) -> None:
+		...
 
 
 class AnimatedGifRenderer(Renderer):
@@ -38,6 +41,9 @@ class AnimatedGifRenderer(Renderer):
 		if self.frameIndex >= self.framesLength:
 			self.frameIndex = 0 
 
+	def exit(self) -> None:
+		pass
+
 
 class RunTextRenderer(Renderer):
 
@@ -58,3 +64,6 @@ class RunTextRenderer(Renderer):
 		if (self.pos + len < 0):
 			self.pos = offscreen_canvas.width
 		time.sleep(self.SIXTY_HERTZ)
+	
+	def exit(self) -> None:
+		pass

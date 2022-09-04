@@ -90,6 +90,11 @@ class RendererShellThread:
                 fps_last_frame = frame_counter
 
         print("No more running :(")
+    
+    def exit(self) -> None:
+        self.keep_running = False        
+        for r in self.renderers:
+            r.exit()
 
 
 def main():
@@ -100,8 +105,8 @@ def main():
         print("Exit listener triggered. '{topic}' '{message}'")
         if topic == TOPIC_COMMAND_NAME:
             if message == "exit":
+                shell.exit()
                 mqtt_bridge.stop()
-                shell.keep_running = False
 
     mqtt_bridge.subscribe_with_cb(TOPIC_COMMAND_NAME, exit_listener)
     print(
