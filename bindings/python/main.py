@@ -77,7 +77,7 @@ class RendererShellThread:
             rendering_time = frame_stop - frame_start
             # Slow down to 60Hz if necessary
             time_to_pause = self.SIXTY_HERTZ - rendering_time
-            if rendering_time > 0:
+            if time_to_pause > 0:
                 time.sleep(time_to_pause)
 
             # FPS metrics
@@ -102,7 +102,7 @@ def main():
     shell = RendererShellThread(mqtt_bridge)
 
     def exit_listener(topic: str, message: str) -> None:
-        print("Exit listener triggered. '{topic}' '{message}'")
+        print(f"Exit listener triggered. '{topic}' '{message}'")
         if topic == TOPIC_COMMAND_NAME:
             if message == "exit":
                 shell.exit()
