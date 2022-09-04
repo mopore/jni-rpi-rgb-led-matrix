@@ -50,9 +50,9 @@ class RendererShellThread:
         self.heatvision_renderer = HeatvisionRenderer(mqtt_bridge)
         self.space_operation = SpaceOperationRenderer()
         self.renderers: list[renderer.Renderer] = [
-
+            self.space_operation
             # self.heatvision_renderer,
-            #  renderer.AnimatedGifRenderer(self.SHOOTER_PATH),
+            # renderer.AnimatedGifRenderer(self.SHOOTER_PATH),
             # renderer.RunTextRenderer("Ey!!!"),
             # renderer.AnimatedGifRenderer(self.ROCKET_PATH),
         ]
