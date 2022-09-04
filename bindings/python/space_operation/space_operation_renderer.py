@@ -1,11 +1,13 @@
 from renderer import Renderer
 from rgbmatrix import FrameCanvas, graphics
 from space_operation.aws_button_listener import AwsButtonListener
+import time
 
 
 class SpaceOperationRenderer(Renderer):
 
     TEXT_ORANGE_COLOR = graphics.Color(255, 128, 0)
+    SHOW_BORDER_SECS = 0.5
 
     def __init__(self):
         self.textColor = self.TEXT_ORANGE_COLOR
@@ -13,6 +15,7 @@ class SpaceOperationRenderer(Renderer):
         self.font.LoadFont("../../fonts/5x8.bdf")
         self.textColor = self.TEXT_ORANGE_COLOR
         self.text = "Space OP"
+        self.last_push = 0
 
         # Remember to start "start.sh" in space_operation folder to download AWS IoT SDK
         # Go into the direcotry
@@ -22,6 +25,7 @@ class SpaceOperationRenderer(Renderer):
             global listener
             global message_counter
             print(f"Received message on topic '{topic}'")
+            self.last_push = time.monotonic()
 
         self.aws_listener = AwsButtonListener(topic_callback)
 
@@ -48,8 +52,10 @@ class SpaceOperationRenderer(Renderer):
         self.aws_listener.disconnect()
 
     def _draw_border(self, x: int, y: int, border: int, width: int, height: int) -> bool:
-        if y < border or y > height - border:
-            return True
-        if x < border or x > width - border:
-            return True
+        time_passed = time.monotonic() - self.last_push
+        if time_passed < self.SHOW_BORDER_SECS:
+            if y < border or y >= height - border:
+                return True
+            if x < border or x >= width - border:
+                return True
         return False
