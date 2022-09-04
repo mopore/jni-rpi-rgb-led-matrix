@@ -1,13 +1,14 @@
 import time
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
-from heat_renderer import HeatvisionRenderer
+from heatvision.heat_renderer import HeatvisionRenderer
 import threading
-from mqtt_bridge import MqttBridge
+from heatvision.mqtt_bridge import MqttBridge
 import renderer
 import subprocess
 
 ONE_SECOND = 1
 TOPIC_COMMAND_NAME = "jniHome/services/heatvision1/command"
+IP_TEST_RIG = "192.168.199.247"
 
 EXIT_COMMAND_NAME = "exit"
 
@@ -15,10 +16,10 @@ EXIT_COMMAND_NAME = "exit"
 def test_running_on_test_rig() -> bool:
     testing_rig = False
     try:
-        subprocess.check_output(["ip a | grep 192.168.199.247"], shell=True, text=True)
+        subprocess.check_output([f"ip a | grep {IP_TEST_RIG}"], shell=True, text=True)
         testing_rig = True
     except subprocess.CalledProcessError as e:
-        pass  # We receive an error if IP not matched
+        pass  # We expect an error if IP not matched 
     return testing_rig
 
 
