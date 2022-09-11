@@ -10,10 +10,10 @@ class SpaceOperationRenderer(Renderer):
     SHOW_BORDER_SECS = 0.5
 
     def __init__(self):
-        self.textColor = self.TEXT_ORANGE_COLOR
+        self.text_color = self.TEXT_ORANGE_COLOR
         self.font = graphics.Font()
         self.font.LoadFont("../../fonts/5x8.bdf")
-        self.textColor = self.TEXT_ORANGE_COLOR
+        self.text_color = self.TEXT_ORANGE_COLOR
         self.text = "Space OP"
         self.last_push = 0
 
@@ -37,7 +37,7 @@ class SpaceOperationRenderer(Renderer):
         #     for y in range(height):
         #         offscreen_canvas.SetPixel(x, y, 10, 10, 10)
         graphics.DrawText(
-            offscreen_canvas, self.font, 10, 20, self.textColor, self.text
+            offscreen_canvas, self.font, 10, 20, self.text_color, self.text
         )
         self.draw_red_border(offscreen_canvas)
   
